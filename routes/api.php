@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AttendancesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('attendance')->group(function () {
+    // Route::get('day/{id}', [AttendancesController::class, 'index']);
+    Route::post('/absenMasuk', [AttendancesController::class, 'absenMasuk']);
+    Route::post('/absenKeluar', [AttendancesController::class, 'absenKeluar']);
+    Route::get('/getAttendance/{id}', [
+        AttendancesController::class,
+        'getCurrentAttandace',
+    ]);
 });
