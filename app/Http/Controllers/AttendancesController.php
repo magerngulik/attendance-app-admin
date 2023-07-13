@@ -12,83 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AttendancesController extends Controller
 {
-    public function index(string $userId)
-    {
-        $lokasi = 'Kantor Utama';
-        $currentDate = Carbon::now()->format('Y-m-d');
-        $attendance = Attendance::where('user_id', $userId)
-            ->whereDate('tanggal', $currentDate)
-            ->first();
-        $absenSchedule = collect(Schedule::where('user_id', $userId)->first());
-
-        if (!empty($attendance)) {
-            $data = collect($attendance);
-            if (empty($data['waktu_keluar'])) {
-                if (
-                    Carbon::now() >= Carbon::parse($absenSchedule['jam_keluar'])
-                ) {
-                    Attendance::where('user_id', $userId)->update([
-                        'waktu_keluar' => Carbon::now()->format('H:i:s'),
-                        'lokasi_keluar' => $lokasi,
-                    ]);
-
-                    $attendance = Attendance::where('user_id', $userId)
-                        ->whereDate('tanggal', $currentDate)
-                        ->first();
-
-                    $message = [
-                        'message' => 'Berhasil absen Keluar',
-                        'data' => $attendance,
-                        'status' => 200,
-                    ];
-                    return response()->json($message, 200);
-                } else {
-                    $attendance = Attendance::where('user_id', $userId)
-                        ->whereDate('tanggal', $currentDate)
-                        ->first();
-
-                    $message = [
-                        'message' =>
-                            'anda sudah absen masuk & belum saatnya absen keluar',
-                        'data' => $attendance,
-                        'status' => 409,
-                    ];
-
-                    return response()->json($message, 409);
-                }
-            } elseif ($data['waktu_masuk'] && $data['waktu_keluar']) {
-                $attendance = Attendance::where('user_id', $userId)
-                    ->whereDate('tanggal', $currentDate)
-                    ->first();
-
-                $message = [
-                    'message' => 'Anda sudah absen masuk dan keluar',
-                    'data' => $attendance,
-                    'status' => 200,
-                ];
-
-                return response()->json($message, 200);
-            }
-        } else {
-            Attendance::create([
-                'user_id' => $userId,
-                'waktu_masuk' => Carbon::now()->format('H:i:s'),
-                'lokasi_masuk' => $lokasi,
-                'tanggal' => $currentDate,
-            ]);
-            $attendance = Attendance::where('user_id', $userId)
-                ->whereDate('tanggal', $currentDate)
-                ->first();
-
-            $message = [
-                'message' => 'berhasil absen masuk',
-                'data' => $attendance,
-                'status' => 201,
-            ];
-            return response()->json($message, 201);
-        }
-    }
-
     public function absenMasuk(Request $request)
     {
         $lokasi = $request->input('lokasi_masuk');
@@ -147,12 +70,12 @@ class AttendancesController extends Controller
                     ->latest()
                     ->first();
 
-                $message = [
+                $data = [
                     'message' => 'berhasil absen masuk',
                     'data' => $attendance,
                     'status' => 201,
                 ];
-                return response()->json($message, 201);
+                return response()->json($data, 201);
             }
         }
     }
@@ -163,6 +86,14 @@ class AttendancesController extends Controller
         $attendance = Attendance::where('user_id', $id)
             ->whereDate('tanggal', $currentDate)
             ->first();
+
+        if (!$attendance) {
+            $data = [
+                'status' => false,
+                'message' => 'Data kosong',
+            ];
+            return response()->json($data, 409);
+        }
 
         $data = [
             'status' => true,
@@ -208,9 +139,15 @@ class AttendancesController extends Controller
                         Carbon::now() >=
                         Carbon::parse($absenSchedule['jam_keluar'])
                     ) {
+                        $waktuMasuk = Carbon::parse($attendance['waktu_masuk']);
+                        $waktuSekarang = Carbon::parse(Carbon::now());
+
+                        $lamaWaktu = $waktuMasuk->diff($waktuSekarang);
+                        $waktuKerja = $lamaWaktu->format('%h:%i:%s');
                         Attendance::where('user_id', $userId)->update([
                             'waktu_keluar' => Carbon::now()->format('H:i:s'),
                             'lokasi_keluar' => $lokasi,
+                            'waktu_kerja' => $waktuKerja,
                         ]);
 
                         $attendance = Attendance::where('user_id', $userId)
@@ -219,7 +156,6 @@ class AttendancesController extends Controller
 
                         $message = [
                             'message' => 'Berhasil absen Keluar',
-                            'data' => $attendance,
                             'status' => 200,
                         ];
                         return response()->json($message, 200);
@@ -232,7 +168,6 @@ class AttendancesController extends Controller
                             'status' => false,
                             'message' =>
                                 'anda sudah absen masuk & belum saatnya absen keluar',
-                            'data' => $attendance,
                         ];
 
                         return response()->json($message, 409);
