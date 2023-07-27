@@ -255,7 +255,7 @@ Content-Type: application/json
 ```
 
 
-## Cek data absen
+### Cek data absen
 
 **Deskripsi**: untuk mendapatkan data dari user setelah absen masuk dan keluar
 
