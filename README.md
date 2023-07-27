@@ -7,17 +7,8 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-## Pengingat
-### php version create
-composer create-project --prefer-dist laravel/laravel:^9.0 attendance app
-
 
 ## Authentification
-
-
 ## Basis URL
 
 Base url tergantung dengan setting pada komputer teman teman, disini karna masih menggunakan local maka base url yang saya gunakan sebagai berikut:
@@ -260,5 +251,38 @@ Content-Type: application/json
 {
   "status": false,
   "message": "Anda sudah menyelesaikan pekerjaan hari ini"
+}
+```
+
+
+## Cek data absen
+
+**Deskripsi**: untuk mendapatkan data dari user setelah absen masuk dan keluar
+
+**URL**: `api/attendance/getAttendance/1`
+
+**Metode**: GET
+
+```http
+GET /api/attendance/getAttendance/{id_user}
+```
+**Contoh Respons**:
+
+```json
+{
+  "status": true,
+  "message": "Get Data Attandace",
+  "data": {
+    "id": 75,
+    "user_id": "1",
+    "waktu_masuk": "16:54:06",
+    "waktu_keluar": "16:59:30",
+    "lokasi_masuk": "wakatobi",
+    "lokasi_keluar": "wakatobi",
+    "created_at": "2023-07-27T09:54:06.000000Z",
+    "updated_at": "2023-07-27T09:59:30.000000Z",
+    "tanggal": "2023-07-27",
+    "waktu_kerja": "00:05:24"
+  }
 }
 ```
