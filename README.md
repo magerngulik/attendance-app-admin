@@ -166,7 +166,6 @@ Authorization: Bearer {token}
 ```
 
 
-
 ### Absen Masuk 
 
 **Deskripsi**: Absen masuk
@@ -177,8 +176,8 @@ Authorization: Bearer {token}
 
 **Parameter Wajib Di Isi**:
 
-- `email` (wajib): admin@admin.com
-- `password` (wajib): password,
+- `lokasi_masuk` (wajib): wakatobi
+- `user_id` (wajib): 1,
 
 **Contoh Permintaan**:
 ```http
@@ -221,4 +220,45 @@ Content-Type: application/json
   "message": "anda sudah absen masuk, harap tunggu absen keluar"
 }
 
+```
+
+
+### Absen Keluar 
+
+**Deskripsi**: Absen Keluar
+
+**URL**: `api/attendance/absenKeluar`
+
+**Metode**: POST
+
+**Parameter Wajib Di Isi**:
+
+- `lokasi_keluar` (wajib): wakatobi
+- `user_id` (wajib): 1,
+
+**Contoh Permintaan**:
+```http
+POST /api/attendance/absenKeluar
+Content-Type: application/json
+
+{
+  "lokasi_keluar" : "wakatobi",
+  "user_id" : 1
+}
+```
+**Contoh Respons**:
+- Response true
+```json
+{
+  "message": "Berhasil absen Keluar",
+  "status": 200
+}
+```
+
+- Response false (409)
+```json
+{
+  "status": false,
+  "message": "Anda sudah menyelesaikan pekerjaan hari ini"
+}
 ```
