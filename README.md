@@ -167,3 +167,58 @@ Authorization: Bearer {token}
 
 
 
+### Absen Masuk 
+
+**Deskripsi**: Absen masuk
+
+**URL**: `api/attendance/absenMasuk`
+
+**Metode**: POST
+
+**Parameter Wajib Di Isi**:
+
+- `email` (wajib): admin@admin.com
+- `password` (wajib): password,
+
+**Contoh Permintaan**:
+```http
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "lokasi_masuk" : "wakatobi",
+  "user_id": 1
+}
+```
+**Contoh Respons**:
+- Response true
+```json
+{
+  {
+  "message": "berhasil absen masuk",
+  "data": {
+    "id": 75,
+    "user_id": "1",
+    "waktu_masuk": "16:54:06",
+    "waktu_keluar": null,
+    "lokasi_masuk": "wakatobi",
+    "lokasi_keluar": null,
+    "created_at": "2023-07-27T09:54:06.000000Z",
+    "updated_at": "2023-07-27T09:54:06.000000Z",
+    "tanggal": "2023-07-27",
+    "waktu_kerja": null
+  },
+  "status": 201
+}
+}
+
+```
+
+- Response false (409)
+```json
+{
+  "status": false,
+  "message": "anda sudah absen masuk, harap tunggu absen keluar"
+}
+
+```
