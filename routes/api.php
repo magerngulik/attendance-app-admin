@@ -16,6 +16,7 @@ Route::prefix('attendance')->group(function () {
         AttendancesController::class,
         'getCurrentAttandace',
     ]);
+    Route::get('/location', [AttendancesController::class, 'compareLocation']);
 });
 
 Route::prefix('auth')->group(function () {

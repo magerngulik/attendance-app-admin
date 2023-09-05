@@ -190,4 +190,34 @@ class AttendancesController extends Controller
             }
         }
     }
+
+
+    public function compareLocation(Request $request)
+    {
+        $userLatitude = request()->query('latitude');
+        $userLongitude = request()->query('longitude');
+       
+        $yourLatitude = 0.9978969; // Gantilah dengan koordinat yang Anda miliki
+        $yourLongitude = 102.7268471; // Gantilah dengan koordinat yang Anda miliki
+        // Hitung jarak menggunakan rumus Haversine
+        $distance = $this->haversineDistance($userLatitude, $userLongitude, $yourLatitude, $yourLongitude);
+        // Tentukan batas jarak
+        $distanceThreshold = 100000; // Gantilah dengan batas jarak yang Anda inginkan (dalam kilometer)
+        if ($distance <= $distanceThreshold) {
+            return response()->json(['message' => 'Jarak aman.']);
+        } else {
+            return response()->json(['message' => 'Jarak terlalu jauh.']);
+        }
+    }
+
+    private function haversineDistance($lat1, $lon1, $lat2, $lon2)
+    {
+        $earthRadius = 6371000; // Radius bumi dalam kilometer
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $distance = $earthRadius * $c;
+        return $distance;
+    }
 }
