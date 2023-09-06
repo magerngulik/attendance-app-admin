@@ -15,5 +15,7 @@ class Attendance extends Model
         'lokasi_masuk',
         'lokasi_keluar',
         'tanggal',
+        'device',
+        "evidence"
     ];
 }

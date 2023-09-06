@@ -10,13 +10,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('attendance')->group(function () {
-    Route::post('/absenMasuk', [AttendancesController::class, 'absenMasuk']);
-    Route::post('/absenKeluar', [AttendancesController::class, 'absenKeluar']);
-    Route::get('/getAttendance/{id}', [
-        AttendancesController::class,
-        'getCurrentAttandace',
-    ]);
-    Route::get('/location', [AttendancesController::class, 'compareLocation']);
+    Route::post('/check_in', [AttendancesController::class, 'absenMasuk'])->middleware('auth:sanctum');
+    Route::post('/check_out', [AttendancesController::class, 'absenKeluar'])->middleware('auth:sanctum');
+    Route::get('/location', [AttendancesController::class, 'compareLocation'])->middleware('auth:sanctum');
+    Route::get('/current', [AttendancesController::class, 'current'])->middleware('auth:sanctum');
+    Route::get('/delete', [AttendancesController::class, 'delete'])->middleware('auth:sanctum');
 });
 
 Route::prefix('auth')->group(function () {
