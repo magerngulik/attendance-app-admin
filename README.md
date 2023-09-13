@@ -8,6 +8,23 @@
 </p>
 
 
+Halo semuanya,
+Pada kesempatan kali ini, saya ingin mengumumkan bahwa saya telah memperbaharui API aplikasi absensi online yang sebelumnya sudah pernah saya bagikan. Penambahan terbaru ini mencakup beberapa fitur keamanan yang akan membuat absensi menjadi semakin sulit untuk dicurangi.
+Berikut adalah beberapa fitur keamanan baru yang telah ditambahkan:
+
+- **Cek lokasi user:** Fitur ini memungkinkan Anda untuk melacak lokasi user pada saat melakukan absensi. Hal ini dapat membantu untuk mencegah absensi fiktif.
+- **Cek status user pada hari ini:** Fitur ini memungkinkan Anda untuk melihat status absensi user pada hari ini. Hal ini dapat membantu untuk memantau kehadiran user secara lebih akurat.
+- **Cek in berdasarkan area yang ditentukan:** Fitur ini memungkinkan Anda untuk menentukan area tertentu di mana user dapat melakukan absensi. Hal ini dapat membantu untuk mencegah absensi di luar jam kerja atau di luar area yang ditentukan.
+- **Cek in dan menambahkan bukti kehadiran dengan foto:** Fitur ini memungkinkan user untuk menambahkan foto sebagai bukti kehadiran. Hal ini dapat membantu untuk mencegah absensi fiktif.
+- **Cek out berdasarkan area yang ditentukan:** Fitur ini memungkinkan Anda untuk menentukan area tertentu di mana user dapat melakukan cek out. Hal ini dapat membantu untuk mencegah absensi di luar jam kerja atau di luar area yang ditentukan.
+
+Framework yang saya gunakan dalam pengembangan API ini adalah Laravel. Setelah ini, saya akan mengkonsumsi API ini menggunakan Flutter untuk membuat aplikasi absensi lengkap.
+
+Terima kasih atas perhatiannya.
+
+
+
+
 ## Authentification
 ## Basis URL
 

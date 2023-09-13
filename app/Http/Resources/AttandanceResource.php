@@ -25,7 +25,7 @@ class AttandanceResource extends JsonResource
             "tanggal"=> $this->tanggal,
             "waktu_kerja"=> $this->waktu_kerja,
             "evidence"=> ImageHelper::convertImagePathToUrl($this->evidence),
-            "device"=> "samsung s30"
+            "device"=> $this->device
         ];
     }
 }
